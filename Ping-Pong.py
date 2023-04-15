@@ -8,6 +8,8 @@ speed = 10
 win_width = 700
 win_height = 500
 life = 5
+speed_x = 5
+speed_y = 5
 clock = time.Clock()
 mixer.init()
 mixer.music.load('space.ogg')
@@ -51,22 +53,29 @@ background = transform.scale(image.load('12834.jpg'), (700,500))
 
 player = Player2('Stick.png', -15, 250, 5)
 player2 = Player('Stick.png', 650, 250, 5)
+ball = GameSprite('images.png', 250, 350, 5)
 game = True
 finish = False
 while game:
+    
     window.blit(background,(0,0))
     for e in event.get():
 
+
         if e.type == QUIT:
             game = False
-        elif e.type == KEYDOWN:
-            if e.key == K_SPACE:
-                player.fire()
-                fire_sound.play()
+
     if not finish:
         player.reset()
         player2.reset()
         player.update()
+        ball.reset()
+        ball.update()
+        ball.reset()
         player2.update()
         clock.tick(FPS)
         display.update()
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+        if ball.rect.y > win_height -50 or ball.rect.y <0:
+            speed_y *= -1 
